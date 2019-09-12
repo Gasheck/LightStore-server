@@ -1,4 +1,4 @@
-import crypt from 'bcrypt';
+import crypt from 'simplecrypt';
 import User from '../../../models/User';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -9,7 +9,7 @@ export const { createUser } = {
       if (existingUser) {
         throw new Error('User exists already.');
       }
-      const hashedPassword = await crypt.hash(password, 12);
+      const hashedPassword = crypt.encrypt(password);
 
       const user = new User({
         email,

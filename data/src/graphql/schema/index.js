@@ -1,20 +1,27 @@
-import { buildSchema } from 'graphql';
+import { gql } from 'apollo-server-express';
 
-export default buildSchema(`
-  type Product {
-    _id: ID!
+export default gql`
+  type TypeAttribute {
+    id: ID!
     name: String!
-    price: Float!
-    description: String!
-    category: [Category!]!
+    values: [String!]!
   }
-  type Group {
-    _id: ID!
+  type Type {
+    id: ID!
     name: String!
+    attributes: [TypeAttribute!]!
   }
   type Category {
-    _id: ID!
+    id: ID!
     name: String!
+  }
+  type Product {
+    id: ID!
+    name: String!
+    price: Float!
+    type: [ID!]!
+    quantity: Int!
+    description: String!
   }
   type User {
     email: String!
@@ -22,14 +29,22 @@ export default buildSchema(`
   type AuthData {
     isAdmin: Boolean!
   }
+  input TypeAttributeInput {
+    name: String!
+    values: [String!]!
+  }
   input CreateProductInput {
     name: String!
-    quantity: Int
+    quantity: Int!
     price: Float!
     description: String!
-    preview: String
-    photos: [String]
-    group: ID!
+    type: [ID!]!
+    mainPhoto: Int
+    photos: [Upload!]!
+  }
+  input CreateTypeInput {
+    name: String!
+    attributes: [TypeAttributeInput]!
   }
   input UpdateProductInput {
     id: ID!
@@ -39,29 +54,26 @@ export default buildSchema(`
     description: String
     preview: String
     photos: [String]
-    group: ID
   }
-  input GroupInput {
+  input CategoryInput {
     name: String!
   }
   input CreateUserInput {
     email: String!
     password: String!
   }
-  type RootQuery {
+  type Query {
     getProducts(groupId: ID): [Product!]!
-    getGroups(id: ID): [Group!]!
+    getTypes: [Type!]!
+    getCategories(id: [ID]): [Category!]!
     login(email: String!, password: String!): AuthData!
   }
-  type RootMutation {
+  type Mutation {
     createProduct(productInput: CreateProductInput): Product
     updateProduct(productInput: UpdateProductInput): Product
     deleteProduct(id: ID!): Product
-    createGroup(groupInput: GroupInput): Group
+    createCategory(categoryInput: CategoryInput): Category
+    createType(typeInput: CreateTypeInput): Type
     createUser(userInput: CreateUserInput): User
   }
-  schema {
-    query: RootQuery
-    mutation: RootMutation
-  }
-`);
+`;

@@ -1,4 +1,5 @@
 .idea
 logs
 *.log
+data/images
 node_modules

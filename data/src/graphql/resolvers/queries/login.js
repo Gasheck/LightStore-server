@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import crypt from 'bcrypt';
+import crypt from 'simplecrypt';
 import User from '../../../models/User';
 import { tokenExpiresIn, tokenKey, tokenCookieName } from '../../../cfg/auth';
 import { isUserAdmin } from '../helpers';
@@ -13,7 +13,7 @@ export default async ({ email, password }, { res }) => {
   if (!userId) {
     throw new Error('User does not exist!');
   }
-  const isEqual = await crypt.compare(password, userPassword);
+  const isEqual = crypt.decrypt(userPassword) === password;
   if (!isEqual) {
     throw new Error('Password is incorrect!');
   }

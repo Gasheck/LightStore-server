@@ -1,3 +1,6 @@
 [submodule "db"]
 	path = db
 	url = git@github.com:Gasheck/LightStore-db.git
+[submodule "data/form-validation"]
+	path = data/form-validation
+	url = git@github.com:Gasheck/LightStore-form-validation.git

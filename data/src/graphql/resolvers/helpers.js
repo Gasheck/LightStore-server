@@ -8,7 +8,7 @@ export const { getProductSet, createProductSet, isUserAdmin } = {
         : await SetModel.find();
       return setData.map(setItem => ({
         ...setItem._doc,
-        _id: setItem.id,
+        id: setItem.id,
       }));
     } catch (err) {
       throw err;

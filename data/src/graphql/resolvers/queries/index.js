@@ -1,9 +1,11 @@
-import { getGroups } from './group';
+import { getCategories } from './category';
 import { getProducts } from './product';
+import { getTypes } from './type';
 import login from './login';
 
 export default {
-  getGroups,
+  getCategories,
   getProducts,
+  getTypes,
   login,
 };

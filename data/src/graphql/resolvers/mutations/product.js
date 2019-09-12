@@ -1,47 +1,37 @@
 import Product from '../../../models/Product';
+import Image from '../../../models/Image';
+import FileUpload from '../../components/FileUpload';
+import { createProductValidation } from '../../../../form-validation/src';
 
 export const { createProduct, updateProduct, deleteProduct } = {
-  /*
-  mutation($name: String!, $price: Float!, $description: String!, $group: ID!) {
-    createProduct(productInput: {
-      name: $name,
-      price: $price,
-      description: $description,
-      group: $group,
-    }) {
-      name
-    }
-  }
+  createProduct: async (parent, { productInput }) => {
+    await createProductValidation.validate(productInput, { abortEarly: false });
 
-  {
-    "name": "p1",
-    "price": 10,
-    "description": "p1 desc",
-    "group": "5cc7796eb8e8a60008c6477b"
-  }
-  */
-  createProduct: async ({
-    productInput: {
-      name,
-      quantity = 1,
-      price,
-      description,
-      preview = '',
-      photos = [],
-      category,
-    },
-  }) => {
-    const product = new Product({
+    const {
       name,
       quantity,
       price,
       description,
-      preview,
+      type,
+      mainPhoto = 0,
       photos,
-      category,
-    });
-    const result = await product.save();
-    return result._doc;
+    } = productInput;
+
+    try {
+      const savedPhotos = await FileUpload({ files: photos, FileModel: Image });
+      const product = new Product({
+        name,
+        quantity,
+        price,
+        description,
+        type,
+        preview: savedPhotos[mainPhoto],
+        photos: savedPhotos,
+      });
+      return await product.save();
+    } catch (error) {
+      throw error;
+    }
   },
 
   /*
