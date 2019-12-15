@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const groupSchema = new Schema({
+const imagesSchema = new Schema({
   filename: {
     type: String,
     required: true,
@@ -19,4 +19,4 @@ const groupSchema = new Schema({
   },
 });
 
-export default model('Image', groupSchema);
+export default model('Image', imagesSchema);

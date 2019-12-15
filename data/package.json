@@ -26,7 +26,6 @@
     "esm": "^3.2.25",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
-    "get-stream": "^5.1.0",
     "graphql": "^14.2.0",
     "graphql-constraint-directive": "^1.4.0",
     "graphql-tools": "^4.0.5",

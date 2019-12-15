@@ -14,7 +14,7 @@ export const { createProduct, updateProduct, deleteProduct } = {
       description,
       type,
       mainPhoto = 0,
-      photos,
+      photos = [],
     } = productInput;
 
     try {
@@ -28,27 +28,18 @@ export const { createProduct, updateProduct, deleteProduct } = {
         preview: savedPhotos[mainPhoto],
         photos: savedPhotos,
       });
-      return await product.save();
+
+      await product
+        .populate('preview', 'filename')
+        .populate('photos')
+        .populate('type', 'name')
+        .save();
+      return await product.execPopulate();
     } catch (error) {
       throw error;
     }
   },
 
-  /*
-  mutation($id: ID!, $name: String!) {
-    updateProduct(productInput: {
-      id: $id,
-      name: $name,
-    }) {
-      name
-    }
-  }
-
-  {
-    "id": "5cc77ae1b8e8a60008c64781",
-    "name": "Гель-алоэ"
-  }
-  */
   updateProduct: async args => {
     const { id, ...restArgs } = args.productInput;
     const product = await Product.findByIdAndUpdate(id, restArgs, {
@@ -57,19 +48,8 @@ export const { createProduct, updateProduct, deleteProduct } = {
     return product._doc;
   },
 
-  /*
-  mutation($id: ID!) {
-    deleteProduct(id: $id) {
-      name
-    }
-  }
-
-  {
-    "id": "5cc7370518430d00086994ed"
-  }
-  */
-  deleteProduct: async ({ id }) => {
+  deleteProduct: async (parent, { id }) => {
     const product = await Product.findByIdAndDelete(id);
-    return product._doc;
+    return product._id;
   },
 };

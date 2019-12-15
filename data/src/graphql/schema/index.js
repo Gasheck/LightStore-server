@@ -15,13 +15,20 @@ export default gql`
     id: ID!
     name: String!
   }
+  type Image {
+    id: ID!
+    path: String!
+    filename: String!
+  }
   type Product {
     id: ID!
     name: String!
     price: Float!
-    type: [ID!]!
+    type: [Type!]!
     quantity: Int!
     description: String!
+    preview: Image!
+    photos: [Image!]!
   }
   type User {
     email: String!
@@ -39,7 +46,7 @@ export default gql`
     price: Float!
     description: String!
     type: [ID!]!
-    mainPhoto: Int
+    mainPhoto: Int!
     photos: [Upload!]!
   }
   input CreateTypeInput {
@@ -71,7 +78,7 @@ export default gql`
   type Mutation {
     createProduct(productInput: CreateProductInput): Product
     updateProduct(productInput: UpdateProductInput): Product
-    deleteProduct(id: ID!): Product
+    deleteProduct(id: ID!): ID
     createCategory(categoryInput: CategoryInput): Category
     createType(typeInput: CreateTypeInput): Type
     createUser(userInput: CreateUserInput): User

@@ -2,7 +2,6 @@ import fs from 'fs';
 import mkdirp from 'mkdirp';
 import shortid from 'shortid';
 import crypto from 'crypto';
-import getStream from 'get-stream';
 import { map } from 'lodash';
 
 const UPLOAD_DIR = './images';
@@ -12,7 +11,8 @@ mkdirp.sync(UPLOAD_DIR);
 
 const storeFS = async ({ stream, filename }) => {
   const id = shortid.generate();
-  const path = `${UPLOAD_DIR}/${id}-${filename}`;
+  const name = `${id}-${filename}`;
+  const path = `${UPLOAD_DIR}/${name}`;
 
   return new Promise((resolve, reject) =>
     stream
@@ -24,7 +24,7 @@ const storeFS = async ({ stream, filename }) => {
       })
       .pipe(fs.createWriteStream(path))
       .on('error', error => reject(error))
-      .on('finish', () => resolve({ path })),
+      .on('finish', () => resolve({ path, name })),
   );
 };
 
@@ -33,30 +33,43 @@ const storeDB = ({ filename, mimetype, checksum, path, FileModel }) => {
   return user.save();
 };
 
-const isFileAvailable = async (checksum, FileModel) => {
-  const files = await FileModel.find({ checksum });
-  return Boolean(files.length);
+const getAvailableFile = async (checksum, FileModel) => {
+  return FileModel.findOne({ checksum });
+};
+
+const getChecksum = async stream => {
+  return new Promise(resolve => {
+    const hash = crypto.createHash('sha1');
+    hash.setEncoding('hex');
+
+    stream
+      .on('end', () => {
+        hash.end();
+        resolve(hash.read());
+      })
+      .pipe(hash);
+  });
 };
 
 export default async ({ files, FileModel }) => {
   return Promise.all(
     map(files, async file => {
       const { createReadStream, filename, mimetype } = await file;
-      const stream = createReadStream();
-      const fileData = await getStream.buffer(stream);
-      const checksum = crypto
-        .createHash('md5')
-        .update(fileData)
-        .digest('hex');
-      const exists = await isFileAvailable(checksum, FileModel);
 
-      if (exists) {
-        throw new Error('File already exists');
+      const checksum = await getChecksum(createReadStream());
+      const availableFile = await getAvailableFile(checksum, FileModel);
+
+      if (availableFile && availableFile._id) {
+        return availableFile._id;
       }
 
-      const { path } = await storeFS({ stream, filename });
-      const { _id: id } = await storeDB({
+      const { path, name } = await storeFS({
+        stream: createReadStream(),
         filename,
+      });
+
+      const { _id: id } = await storeDB({
+        filename: name,
         path,
         checksum,
         mimetype,

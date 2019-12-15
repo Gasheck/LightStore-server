@@ -17,6 +17,12 @@ const {
 
 const app = express();
 
+app.use(express.static('images'));
+
+app.get('/', (req, res) => {
+  res.send('An alligator approaches!');
+});
+
 const server = new ApolloServer({ typeDefs: schema, resolvers });
 
 server.applyMiddleware({ app, path: API_PREFIX });
