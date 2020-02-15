@@ -44,7 +44,7 @@
     "request": "^2.88.0",
     "shortid": "^2.2.14",
     "simplecrypt": "^0.1.0",
-    "yarn": "^1.17.3",
+    "yarn": "^1.22.0",
     "yup": "^0.27.0"
   },
   "devDependencies": {
