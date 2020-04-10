@@ -1,0 +1,9 @@
+{
+  "type": "postgres",
+  "host": "db",
+  "port": 5432,
+  "username": "root",
+  "password": "Rosicky07",
+  "database": "store",
+  "entities": ["dist/**/*.entity{.ts,.js}"]
+}

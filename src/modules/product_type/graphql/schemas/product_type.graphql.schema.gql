@@ -1,0 +1,11 @@
+type Type {
+  id: ID!
+  name: String!
+}
+input CreateTypeInput {
+  name: String!
+}
+input UpdateTypeInput {
+  id: ID!
+  type: CreateTypeInput!
+}
