@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { GraphqlModule } from './graphql/graphql.module';
-import { DbModule } from './db/db.module';
+import { CommonGraphqlModule } from './graphql/common.graphql.module';
+import { CommonDbModule } from './db/common.db.module';
 
 @Module({
-  imports: [DbModule, GraphqlModule],
+  imports: [CommonDbModule, CommonGraphqlModule],
 })
 export class CommonModule {}

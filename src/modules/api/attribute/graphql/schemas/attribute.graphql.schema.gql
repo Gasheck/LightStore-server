@@ -1,0 +1,10 @@
+type Attribute {
+  id: ID!
+  name: String!
+  type: ID!
+}
+
+input AttributeInput {
+  name: String!
+  type: ID!
+}

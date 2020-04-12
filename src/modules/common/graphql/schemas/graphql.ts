@@ -5,6 +5,11 @@
  */
 
 /* tslint:disable */
+export interface AttributeInput {
+    name: string;
+    type: string;
+}
+
 export interface CreateProductInput {
     name: string;
     quantity?: number;
@@ -15,6 +20,7 @@ export interface CreateProductInput {
 
 export interface CreateTypeInput {
     name: string;
+    attributes?: AttributeInput[];
 }
 
 export interface UpdateProductInput {
@@ -29,6 +35,14 @@ export interface UpdateProductInput {
 export interface UpdateTypeInput {
     id: string;
     type: CreateTypeInput;
+    attributes?: AttributeInput[];
+    attribute_type?: string;
+}
+
+export interface Attribute {
+    id: string;
+    name: string;
+    type: string;
 }
 
 export interface Image {
@@ -63,4 +77,5 @@ export interface IQuery {
 export interface Type {
     id: string;
     name: string;
+    attributes: Attribute[];
 }

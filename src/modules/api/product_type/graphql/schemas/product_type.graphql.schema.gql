@@ -1,0 +1,15 @@
+type Type {
+  id: ID!
+  name: String!
+  attributes: [Attribute!]!
+}
+input CreateTypeInput {
+  name: String!
+  attributes: [AttributeInput]
+}
+input UpdateTypeInput {
+  id: ID!
+  type: CreateTypeInput!
+  attributes: [AttributeInput]
+  attribute_type: ID
+}
