@@ -5,6 +5,16 @@ type Product {
   quantity: Int!
   description: String!
   type: Type!
+  attributes: [ProductAttribute!]!
+}
+type ProductAttribute {
+  id: ID!
+  name: String!
+  value: String!
+}
+input ProductAttributeInput {
+  id: ID!
+  value: String!
 }
 input CreateProductInput {
   name: String!
@@ -12,6 +22,7 @@ input CreateProductInput {
   price: Float
   description: String
   type: ID!
+  attributes: [ProductAttributeInput!]
 }
 input UpdateProductInput {
   id: ID!

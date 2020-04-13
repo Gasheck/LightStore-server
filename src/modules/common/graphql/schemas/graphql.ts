@@ -16,11 +16,17 @@ export interface CreateProductInput {
     price?: number;
     description?: string;
     type: string;
+    attributes?: ProductAttributeInput[];
 }
 
 export interface CreateTypeInput {
     name: string;
     attributes?: AttributeInput[];
+}
+
+export interface ProductAttributeInput {
+    id: string;
+    value: string;
 }
 
 export interface UpdateProductInput {
@@ -66,6 +72,13 @@ export interface Product {
     quantity: number;
     description: string;
     type: Type;
+    attributes: ProductAttribute[];
+}
+
+export interface ProductAttribute {
+    id: string;
+    name: string;
+    value: string;
 }
 
 export interface IQuery {
