@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ProductGraphqlResolver } from './product.graphql.resolver';
-import { ProductModule } from '../../../db/product/product.module';
+import { ProductDbModule } from '../db/product.db.module';
 
 @Module({
-  imports: [ProductModule],
+  imports: [ProductDbModule],
   providers: [ProductGraphqlResolver],
 })
 export class ProductGraphqlModule {}

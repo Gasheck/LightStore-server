@@ -22,7 +22,6 @@ input CreateProductInput {
   price: Float
   description: String
   type: ID!
-  attributes: [ProductAttributeInput!]
 }
 input UpdateProductInput {
   id: ID!

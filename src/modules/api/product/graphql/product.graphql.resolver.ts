@@ -1,13 +1,14 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { ProductService } from '../../../db/product/product.service';
+import { ProductDbService } from '../db/product.db.service';
 import { UsePipes } from '@nestjs/common';
 import { PrototypeFullObjectPipe, YupValidationPipe } from '../../../../pipes';
 import { productInputCreateSchema, productInputUpdateSchema } from './validation';
-import { Product } from '../../../db/product/product.entity';
+import { Product } from '../db/product.db.entity';
+import {In} from "typeorm";
 
 @Resolver('Product')
 export class ProductGraphqlResolver {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductDbService) {}
 
   @Query()
   async products() {
@@ -22,7 +23,11 @@ export class ProductGraphqlResolver {
   }
 
   @Mutation()
-  async removeProduct(@Args('id') id: number) {
+  async removeProduct(@Args('id') id: number | number[]) {
+    if (!Array.isArray(id)) {
+      id = [id];
+    }
+
     return await this.productService.remove(id);
   }
 
@@ -31,6 +36,8 @@ export class ProductGraphqlResolver {
   @UsePipes(new YupValidationPipe(productInputUpdateSchema))
   async updateProduct(@Args('productInput') product: Product) {
     const { id } = product;
-    return await this.productService.update(id, product);
+    const updatedId = await this.productService.update(id, product);
+
+    return await this.productService.findOne( { where: { id: updatedId }, relations: ['type'] });
   }
 }

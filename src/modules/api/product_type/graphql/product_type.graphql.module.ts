@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ProductTypeGraphqlResolver } from './product_type.graphql.resolver';
 import { ProductTypeDbModule } from '../db/product_type.db.module';
-import { ProductTypeModule } from '../../../db/product_type/product_type.module';
+import { AttributeDbModule } from '../../attribute/db/attribute.db.module';
 
 @Module({
-  imports: [ProductTypeDbModule, ProductTypeModule],
+  imports: [ProductTypeDbModule, ProductTypeDbModule, AttributeDbModule],
   providers: [ProductTypeGraphqlResolver],
 })
 export class ProductTypeGraphqlModule {}

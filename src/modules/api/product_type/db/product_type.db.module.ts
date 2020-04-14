@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductTypeDbService } from './product_type.db.service';
-import { ProductTypeModule } from '../../../db/product_type/product_type.module';
-import { AttributeDbModule } from '../../attribute/db/attribute.db.module';
+import { ProductType } from "./product_type.db.entity";
 
 @Module({
-  imports: [ProductTypeModule, AttributeDbModule],
+  imports: [
+    TypeOrmModule.forFeature([ProductType]),
+  ],
   providers: [ProductTypeDbService],
   exports: [ProductTypeDbService],
 })

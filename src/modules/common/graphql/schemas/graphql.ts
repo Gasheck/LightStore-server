@@ -16,7 +16,6 @@ export interface CreateProductInput {
     price?: number;
     description?: string;
     type: string;
-    attributes?: ProductAttributeInput[];
 }
 
 export interface CreateTypeInput {
@@ -59,7 +58,7 @@ export interface Image {
 export interface IMutation {
     createProduct(productInput?: CreateProductInput[]): Product[] | Promise<Product[]>;
     updateProduct(productInput?: UpdateProductInput): Product | Promise<Product>;
-    removeProduct(id: string): string | Promise<string>;
+    removeProduct(id: string[]): string[] | Promise<string[]>;
     createType(typeInput?: CreateTypeInput[]): Type[] | Promise<Type[]>;
     removeType(id: string[]): string[] | Promise<string[]>;
     updateType(typeInput?: UpdateTypeInput): Type | Promise<Type>;

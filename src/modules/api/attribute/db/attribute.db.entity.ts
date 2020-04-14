@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { ProductType } from '../../../db/product_type/product_type.entity';
+import { ProductType } from '../../product_type/db/product_type.db.entity';
 
 @Entity()
 export class Attribute {
@@ -17,8 +17,8 @@ export class Attribute {
     () => ProductType,
     product_type => product_type.id,
   )
-  @JoinColumn({ name: 'product_type_id', referencedColumnName: 'id' })
-  product_type_id: number;
+  @JoinColumn({ name: 'product_type', referencedColumnName: 'id' })
+  product_type: number;
 
   @Column({ type: 'varchar', length: 64 })
   name: string;
@@ -27,6 +27,6 @@ export class Attribute {
     () => ProductType,
     product_type => product_type.id,
   )
-  @JoinColumn({ name: 'attribute_type_id', referencedColumnName: 'id' })
-  attribute_type_id: number;
+  @JoinColumn({ name: 'attribute_type', referencedColumnName: 'id' })
+  attribute_type: number;
 }

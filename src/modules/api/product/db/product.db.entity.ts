@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { ProductType } from '../product_type/product_type.entity';
+import { ProductType } from '../../product_type/db/product_type.db.entity';
 
 @Entity()
 export class Product {

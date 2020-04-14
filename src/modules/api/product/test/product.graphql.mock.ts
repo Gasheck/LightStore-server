@@ -40,3 +40,9 @@ export const UpdateProductGraphqlMock = `
       }
     }
   }`;
+
+export const RemoveProductGraphqlMock = `
+  mutation {
+    removeProduct(id: [1])
+  }
+`;
