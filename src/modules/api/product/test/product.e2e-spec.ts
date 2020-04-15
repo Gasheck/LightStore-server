@@ -5,7 +5,7 @@ import { ProductModule } from '../product.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Product } from '../db/product.db.entity';
 import { CommonGraphqlModule } from '../../../common/graphql/common.graphql.module';
-import {Repository} from 'typeorm';
+import { Repository } from 'typeorm';
 import {
   CreateProductGraphqlMock,
   RemoveProductGraphqlMock,
@@ -16,7 +16,7 @@ import {
   MockType,
   repositoryMockFactory,
 } from '../../../db/base/test/repositoryMockFactory';
-import {AttributeModule} from "../../attribute/attribute.module";
+import { AttributeModule } from '../../attribute/attribute.module';
 
 const errorRequestTest = (app, query, dataKey?) => {
   return request(app.getHttpServer())
@@ -78,7 +78,12 @@ describe('Product (e2e)', () => {
   describe('Create Product', () => {
     it('Should return created product', () => {
       productRepositoryMock.save.mockReturnValueOnce([ProductMock]);
-      return successRequestTest(app, CreateProductGraphqlMock, [ProductMock], 'createProduct');
+      return successRequestTest(
+        app,
+        CreateProductGraphqlMock,
+        [ProductMock],
+        'createProduct',
+      );
     });
   });
 
@@ -86,24 +91,35 @@ describe('Product (e2e)', () => {
     it('Should return updated product', () => {
       productRepositoryMock.update.mockReturnValueOnce({ affected: 1 });
       productRepositoryMock.findOne.mockReturnValueOnce(ProductMock);
-      return successRequestTest(app, UpdateProductGraphqlMock, ProductMock, 'updateProduct');
+      return successRequestTest(
+        app,
+        UpdateProductGraphqlMock,
+        ProductMock,
+        'updateProduct',
+      );
     });
 
     it('Should return an error', () => {
       productRepositoryMock.update.mockReturnValueOnce({ affected: 0 });
-      return errorRequestTest(app, UpdateProductGraphqlMock, 'updateProduct');
+      return errorRequestTest(app, UpdateProductGraphqlMock);
     });
   });
 
   describe('Remove Product', () => {
     it('Should return id array', () => {
       productRepositoryMock.delete.mockReturnValueOnce({ affected: 1 });
-      return successRequestTest(app, RemoveProductGraphqlMock, ["1"], 'removeProduct');
+      productRepositoryMock.find.mockReturnValueOnce([ProductMock]);
+      return successRequestTest(
+        app,
+        RemoveProductGraphqlMock,
+        [ProductMock],
+        'removeProduct',
+      );
     });
 
     it('Should return an error', () => {
       productRepositoryMock.delete.mockReturnValueOnce({ affected: 0 });
-      return errorRequestTest(app, RemoveProductGraphqlMock);
+      return errorRequestTest(app, RemoveProductGraphqlMock, 'removeProduct');
     });
   });
 });

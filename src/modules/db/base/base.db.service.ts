@@ -1,4 +1,4 @@
-import {FindManyOptions, Repository} from 'typeorm';
+import {FindManyOptions, In, Repository} from 'typeorm';
 import { NotAcceptableException } from '@nestjs/common';
 
 export class BaseDbService<T> {

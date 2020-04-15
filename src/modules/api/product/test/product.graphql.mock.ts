@@ -1,3 +1,15 @@
+const ProductFragment = `
+  id
+  name
+  price
+  quantity
+  description
+  type {
+    id
+    name
+  }
+`;
+
 export const CreateProductGraphqlMock = `
   mutation {
     createProduct(productInput: [{
@@ -7,15 +19,7 @@ export const CreateProductGraphqlMock = `
       description: "car_car",
       type: 1,
     }]) {
-      id
-      name
-      price
-      quantity
-      description
-      type {
-        id
-        name
-      }
+      ${ProductFragment}
     }
   }`;
 
@@ -29,20 +33,14 @@ export const UpdateProductGraphqlMock = `
       description: "car_car",
       type: 1,
     }) {
-      id
-      name
-      price
-      quantity
-      description
-      type {
-        id
-        name
-      }
+      ${ProductFragment}
     }
   }`;
 
 export const RemoveProductGraphqlMock = `
   mutation {
-    removeProduct(id: [1])
+    removeProduct(id: [1]) {
+      ${ProductFragment}
+    }
   }
 `;

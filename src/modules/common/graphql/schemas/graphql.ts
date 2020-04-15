@@ -57,10 +57,10 @@ export interface Image {
 
 export interface IMutation {
     createProduct(productInput?: CreateProductInput[]): Product[] | Promise<Product[]>;
+    removeProduct(id: string[]): Product[] | Promise<Product[]>;
     updateProduct(productInput?: UpdateProductInput): Product | Promise<Product>;
-    removeProduct(id: string[]): string[] | Promise<string[]>;
     createType(typeInput?: CreateTypeInput[]): Type[] | Promise<Type[]>;
-    removeType(id: string[]): string[] | Promise<string[]>;
+    removeType(id: string[]): Type[] | Promise<Type[]>;
     updateType(typeInput?: UpdateTypeInput): Type | Promise<Type>;
 }
 

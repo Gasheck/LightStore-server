@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.db.entity';
 import {BaseDbService} from "../../../db/base/base.db.service";
+import {In} from "typeorm";
 
 @Injectable()
 export class ProductDbService extends BaseDbService<Product> {
@@ -9,11 +10,21 @@ export class ProductDbService extends BaseDbService<Product> {
     super(repo);
   }
 
-  find(): Promise<Product[]> {
+  async findMany(id?: number[]): Promise<Product[]> {
+    if (id !== undefined) {
+      return this.repo.find({
+        where: { id: In(id) },
+        relations: ['type'],
+      });
+    }
+
     return this.repo.find({ relations: ['type'] });
   }
 
-  findOne(options?) {
-    return this.repo.findOne(options);
+  findOne(id: number) {
+    return this.repo.findOne({
+      where: { id },
+      relations: ['type'],
+    });
   }
 }

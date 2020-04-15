@@ -2,9 +2,11 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ProductDbService } from '../db/product.db.service';
 import { UsePipes } from '@nestjs/common';
 import { PrototypeFullObjectPipe, YupValidationPipe } from '../../../../pipes';
-import { productInputCreateSchema, productInputUpdateSchema } from './validation';
+import {
+  productInputCreateSchema,
+  productInputUpdateSchema,
+} from './validation';
 import { Product } from '../db/product.db.entity';
-import {In} from "typeorm";
 
 @Resolver('Product')
 export class ProductGraphqlResolver {
@@ -12,14 +14,18 @@ export class ProductGraphqlResolver {
 
   @Query()
   async products() {
-    return this.productService.find();
+    return this.productService.findMany();
   }
 
   @Mutation()
   @UsePipes(new PrototypeFullObjectPipe())
   @UsePipes(new YupValidationPipe(productInputCreateSchema))
-  async createProduct(@Args('productInput') product: Product[]) {
-    return await this.productService.save(product);
+  createProduct(@Args('productInput') product: Product | Product[]) {
+    if (!Array.isArray(product)) {
+      product = [product];
+    }
+
+    return this.productService.save(product);
   }
 
   @Mutation()
@@ -28,7 +34,11 @@ export class ProductGraphqlResolver {
       id = [id];
     }
 
-    return await this.productService.remove(id);
+    const productToRemove = this.productService.findMany(id);
+
+    await this.productService.remove(id);
+
+    return productToRemove;
   }
 
   @Mutation()
@@ -38,6 +48,6 @@ export class ProductGraphqlResolver {
     const { id } = product;
     const updatedId = await this.productService.update(id, product);
 
-    return await this.productService.findOne( { where: { id: updatedId }, relations: ['type'] });
+    return this.productService.findOne(updatedId);
   }
 }

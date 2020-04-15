@@ -1,9 +1,9 @@
 type Mutation {
-  createProduct(productInput: [CreateProductInput]): [Product]
-  updateProduct(productInput: UpdateProductInput): Product
-  removeProduct(id: [ID!]!): [ID!]!
+  createProduct(productInput: [CreateProductInput]): [Product!]!
+  removeProduct(id: [ID!]!): [Product]
+  updateProduct(productInput: UpdateProductInput): Product!
 
-  createType(typeInput: [CreateTypeInput]): [Type]
-  removeType(id: [ID!]!): [ID!]!
-  updateType(typeInput: UpdateTypeInput): Type
+  createType(typeInput: [CreateTypeInput]): [Type!]!
+  removeType(id: [ID!]!): [Type]
+  updateType(typeInput: UpdateTypeInput): Type!
 }
