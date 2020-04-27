@@ -3,6 +3,7 @@ import {Repository} from "typeorm";
 // @ts-ignore
 export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(() => ({
   find: jest.fn(),
+  createQueryBuilder: jest.fn(),
   findOne: jest.fn(),
   delete: jest.fn(),
   save: jest.fn(),

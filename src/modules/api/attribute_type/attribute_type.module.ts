@@ -4,4 +4,4 @@ import { AttributeTypeDbModule } from './db/attribute_type.db.module';
 @Module({
   imports: [AttributeTypeDbModule],
 })
-export class AttributeModule {}
+export class AttributeTypeModule {}

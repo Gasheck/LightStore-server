@@ -4,11 +4,14 @@ import { reduce, map, pickBy, values } from 'lodash';
 import { YupValidationPipe, PrototypeFullObjectPipe } from 'src/pipes';
 import { typeInputSchema } from './validation';
 import { ProductType } from '../db/product_type.db.entity';
-import {AttributeInput, CreateTypeInput} from '../../../common/graphql/schemas/graphql';
+import {
+  AttributeInput,
+  CreateTypeInput,
+} from '../../../common/graphql/schemas/graphql';
 import { ProductTypeDbService } from '../db/product_type.db.service';
-import {getConnection, In} from "typeorm";
-import {Attribute} from "../../attribute/db/attribute.db.entity";
-import {AttributeDbService} from "../../attribute/db/attribute.db.service";
+import { getConnection, In } from 'typeorm';
+import { Attribute } from '../../attribute/db/attribute.db.entity';
+import { AttributeDbService } from '../../attribute/db/attribute.db.service';
 
 @Resolver('Type')
 export class ProductTypeGraphqlResolver {
@@ -38,8 +41,8 @@ export class ProductTypeGraphqlResolver {
 
     const attributes = reduce<
       CreateTypeInput & ProductType,
-      { product_type: number; name: string }[]
-      >(
+      Array<Omit<Attribute, 'id'>>
+    >(
       savedTypes,
       (acc, { id, attributes }) => {
         return [

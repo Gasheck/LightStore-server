@@ -7,6 +7,14 @@ const ProductFragment = `
   type {
     id
     name
+    attributes {
+      id
+      name
+    }
+  }
+  attributes {
+    id
+    value
   }
 `;
 
@@ -18,6 +26,9 @@ export const CreateProductGraphqlMock = `
       quantity: 1,
       description: "car_car",
       type: 1,
+      attributes: [
+        {id: 1, value: "attr_value" }, {id: 2, value: 111 }
+      ]
     }]) {
       ${ProductFragment}
     }

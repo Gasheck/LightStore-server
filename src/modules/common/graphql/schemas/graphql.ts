@@ -10,22 +10,23 @@ export interface AttributeInput {
     type: string;
 }
 
+export interface AttributeValueInput {
+    id: string;
+    value: StringOrInt;
+}
+
 export interface CreateProductInput {
     name: string;
     quantity?: number;
     price?: number;
     description?: string;
     type: string;
+    attributes: AttributeValueInput[];
 }
 
 export interface CreateTypeInput {
     name: string;
     attributes?: AttributeInput[];
-}
-
-export interface ProductAttributeInput {
-    id: string;
-    value: string;
 }
 
 export interface UpdateProductInput {
@@ -50,6 +51,11 @@ export interface Attribute {
     type: string;
 }
 
+export interface AttributeValue {
+    id: string;
+    value: StringOrInt;
+}
+
 export interface Image {
     id: string;
     filename: string;
@@ -71,7 +77,7 @@ export interface Product {
     quantity: number;
     description: string;
     type: Type;
-    attributes: ProductAttribute[];
+    attributes: AttributeValue[];
 }
 
 export interface ProductAttribute {
@@ -91,3 +97,5 @@ export interface Type {
     name: string;
     attributes: Attribute[];
 }
+
+export type StringOrInt = any;

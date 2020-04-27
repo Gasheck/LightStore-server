@@ -1,0 +1,10 @@
+scalar StringOrInt
+
+type AttributeValue {
+  id: ID!
+  value: StringOrInt!
+}
+input AttributeValueInput {
+  id: ID!
+  value: StringOrInt!
+}
